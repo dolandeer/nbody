@@ -13,10 +13,6 @@
 #ifndef NBODY_BODY_H
 #define NBODY_BODY_H
 
-inline double pythag3D(double posx1, double posx2, double posy1, double posy2, double posz1, double posz2) {
-    return sqrt(((posx1-posx2)*(posx1-posx2)) + ((posy1-posy2)*(posy1-posy2)) + ((posz1-posz2)*(posz1-posz2)));
-}
-
 struct body {
 private:
     double mass;
