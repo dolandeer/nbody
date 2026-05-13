@@ -23,22 +23,22 @@ int main() {
     loop nbody;
     auto sun = nbody.createBody("sol", 0, 0, 0, SUN_MASS_CONSTANT);
     auto earth = nbody.createBody("earth", AU_1, 0, 0, EARTH_MASS_CONSTANT);
-    auto moon = nbody.createBody("moon", earth->posx+384.4E6, 0, 0, MOON_MASS_CONSTANT);
+    //auto moon = nbody.createBody("moon", earth->posx+384.4E6, 0, 0, MOON_MASS_CONSTANT);
     sun->setVel(0,0,0);
     earth->setVel(0, 29784.8, 0); // in m/s || y = 29784.8 is normal, this is tangential velocity
-    moon->setVel(0,29784.8+1024,0);
+    //moon->setVel(0,29784.8+1024,0);
     //std::cout << earth->gravitationalForce(*sun) << std::endl;
 
     //graphics
     sf::CircleShape sunGraphic(109.0f);
     sf::CircleShape earthGraphic(1.0f);
-    sf::CircleShape moonGraphic(.1f);
+    //sf::CircleShape moonGraphic(.1f);
     sunGraphic.setFillColor(sf::Color(255, 255, 0));
     earthGraphic.setFillColor(sf::Color(100, 250, 50));
-    moonGraphic.setFillColor(sf::Color(255, 255, 255));
+    //moonGraphic.setFillColor(sf::Color(255, 255, 255));
     sunGraphic.setOrigin({109.0f, 109.0f});
     earthGraphic.setOrigin({1.0f, 1.0f});
-    moonGraphic.setOrigin({0.5f,0.5f});
+    //moonGraphic.setOrigin({0.5f,0.5f});
     sunGraphic.setPosition({
     centerX + static_cast<float>(sun->posx * scaleFactor),
     centerY + static_cast<float>(sun->posy * scaleFactor)
@@ -47,19 +47,23 @@ int main() {
     centerX + static_cast<float>(earth->posx * scaleFactor),
     centerY + static_cast<float>(earth->posy * scaleFactor)
     });
+    /*
     moonGraphic.setPosition({
     centerX + static_cast<float>(moon->posx * scaleFactor),
     centerY + static_cast<float>(moon->posy * scaleFactor)
     });
+    */
 
 
     //view options
+    /*
     sf::View view2;
     view2.setCenter({centerX + static_cast<float>(earth->posx * scaleFactor),
         centerY + static_cast<float>(earth->posy * scaleFactor)});
     view2.setSize({200.f, 200.f});
     view2.zoom(0.3f);
     view2.setViewport(sf::FloatRect({0.75f, 0.f}, {0.25f, 0.25f}));
+    */
 
     while (window.isOpen())
     {
@@ -90,10 +94,12 @@ int main() {
         centerX + static_cast<float>(earth->posx * scaleFactor),
         centerY + static_cast<float>(earth->posy * scaleFactor)
         });
+        /*
         moonGraphic.setPosition({
         centerX + static_cast<float>(moon->posx * scaleFactor),
         centerY + static_cast<float>(moon->posy * scaleFactor)
         });
+        */
 
         // clear the window with black color
         window.clear(sf::Color::Black);
@@ -101,6 +107,7 @@ int main() {
         // draw everything below
 
         //viewport stuff
+        /*
         window.setView(view2);
         view2.setCenter({centerX + static_cast<float>(earth->posx * scaleFactor),
         centerY + static_cast<float>(earth->posy * scaleFactor)});
@@ -108,11 +115,12 @@ int main() {
         window.draw(moonGraphic);
         // restore the default view
         window.setView(window.getDefaultView());
+        */
 
 
         window.draw(sunGraphic);
         window.draw(earthGraphic);
-        window.draw(moonGraphic);
+        //window.draw(moonGraphic);
 
         //handle trail
         for (const auto n : nbody.container) {
