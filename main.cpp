@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <SFML/Graphics.hpp>
 #include "loop.h"
 #define AU_1 1.496e+11 // in meters || 1 au = 200px
