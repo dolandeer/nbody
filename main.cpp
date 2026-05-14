@@ -6,7 +6,7 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "nbody");
 
-    const double deltaT = 3600.0/2; // physics timestep in seconds per frame, 1 = 1s/frame
+    const double deltaT = 3600.0/8; // physics timestep in seconds per frame, 1 = 1s/frame
     // 3600.0 1 hour per frame
     // 86400.0 1 day per frame
     // 604800.0 1 week per frame
