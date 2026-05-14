@@ -14,9 +14,9 @@ public:
     double posx, posy, posz; // one unit of pos = 1m (ex x=0 and x=1 are 1m apart)
     double velx, vely, velz;
     double accx, accy, accz;
-
     std::deque<std::pair<double, double>> trail;
-    //const
+
+    // constructor
     body(std::string name, double posx, double posy, double posz, double mass) {
         this->name = std::move(name);
         this->posx = posx;
@@ -27,7 +27,8 @@ public:
         accx = accy = accz = 0.0;
     }
 
-    //functions
+    // functions
+    // helpers
     double getMass(){return this->mass;}
     void clearAcc() {
         accx = accy = accz = 0.0;
@@ -39,6 +40,7 @@ public:
         this->velz = newZ;
     }
 
+    // math operations
     double gravitationalForce(body& other) {
         double r = distanceFrom(other);
         return G_CONSTANT * ((this->mass*other.getMass())/(r*r));

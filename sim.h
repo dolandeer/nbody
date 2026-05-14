@@ -14,18 +14,20 @@ public:
     }
 
     body* createBody(std::string name, double posx, double posy, double posz, double mass) {
-        body* n = new body(std::move(name), posx, posy, posz, mass);
+        body* n = new body(std::move(name), posx, posy, posz, mass); // NOTE: HEAP ALLOCATION
         this->container.push_back(n);
         numBodies++;
         return n;
     }
 
+    // one step happens per frame, deltaT determines the size of this step
+    // uses eulers method, TODO: change eventually
     void step(double deltaT) {
-        // eulers method, TODO: change eventually
         for (auto n : container) {
             //trail
             if (n->trail.size() == TRAIL_LENGTH) n->trail.pop_front();
             n->trail.emplace_back(n->posx, n->posy);
+
             //physics
             n->clearAcc();
             for (auto other : container) {
