@@ -4,14 +4,7 @@
 #include <vector>
 #include <string>
 #include <queue>
-#define G_CONSTANT 6.67300E-11
-#define EARTH_MASS_CONSTANT 5.97219E24 // in kg
-#define SUN_MASS_CONSTANT 1.989E30 // kg
-#define MOON_MASS_CONSTANT 7.34767309E22
-#define TRAIL_LENGTH 3000
-
-#ifndef NBODY_BODY_H
-#define NBODY_BODY_H
+#include "constants.h"
 
 struct body {
 private:
@@ -59,10 +52,6 @@ public:
     }
 
     void applyGravity(body& other) {
-        if (trail.size() == TRAIL_LENGTH) { // trail length
-            trail.pop();
-        }
-        trail.emplace(posx, posy);
         double disx = other.posx - this->posx;
         double disy = other.posy - this->posy;
         double disz = other.posz - this->posz;
@@ -74,5 +63,3 @@ public:
         this->accz += acc * (disz / r);
     }
 };
-
-#endif //NBODY_BODY_H
