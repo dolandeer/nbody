@@ -27,10 +27,10 @@ int main() {
 
 
     //graphics
-    sf::CircleShape sunGraphic(10.0f);
-    sf::CircleShape earthGraphic(10.0f);
-    sunGraphic.setOrigin({10.0f, 10.0f});
-    earthGraphic.setOrigin({10.0f, 10.0f});
+    sf::CircleShape sunGraphic(1.0f);
+    sf::CircleShape earthGraphic(1.0f);
+    sunGraphic.setOrigin({1.0f, 1.0f});
+    earthGraphic.setOrigin({1.0f, 1.0f});
 
 
     // view options
