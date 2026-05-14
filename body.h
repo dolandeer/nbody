@@ -40,25 +40,13 @@ public:
         this->velz = newZ;
     }
 
-    // math operations
-    double gravitationalForce(body& other) {
-        double r = distanceFrom(other);
-        return G_CONSTANT * ((this->mass*other.getMass())/(r*r));
-    }
-
-    double distanceFrom(body& other) {
-        double posx1, posy1, posz1, posx2, posy2, posz2;
-        posx1 = this->posx; posy1 = this->posy; posz1 = this->posz;
-        posx2 = other.posx; posy2 = other.posy; posz2 = other.posz;
-        return sqrt(((posx1-posx2)*(posx1-posx2)) + ((posy1-posy2)*(posy1-posy2)) + ((posz1-posz2)*(posz1-posz2)));
-    }
-
     void applyGravity(body& other) {
         double disx = other.posx - this->posx;
         double disy = other.posy - this->posy;
         double disz = other.posz - this->posz;
-        double r = distanceFrom(other);
-        double F = G_CONSTANT * ((this->mass*other.getMass())/(r*r));
+        double r2 = ((disx*disx)+(disy*disy)+(disz*disz));
+        double r = sqrt(r2);
+        double F = G_CONSTANT * ((this->mass*other.getMass())/(r2));
         double acc = F/this->mass;
         this->accx += acc * (disx / r);
         this->accy += acc * (disy / r);

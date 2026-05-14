@@ -3,9 +3,9 @@
 #include "body.h"
 
 class simulation {
-    int numBodies = 0;
-public:
+private:
     std::vector<body*> container;
+public:
     simulation() = default;
     ~simulation() {
         for (auto n : container) {
@@ -13,13 +13,27 @@ public:
         }
     }
 
+    //helpers
+    const std::vector<body*>& getContainer() const {
+        return this->container;
+    }
+
     body* createBody(std::string name, double posx, double posy, double posz, double mass) {
         body* n = new body(std::move(name), posx, posy, posz, mass); // NOTE: HEAP ALLOCATION
         this->container.push_back(n);
-        numBodies++;
         return n;
     }
 
+    double totalMass() const {
+        double out = 0.0;
+        for (const auto n : container) {
+            out += n->getMass();
+        }
+        return out;
+    }
+
+
+    //physics operations
     // one step happens per frame, deltaT determines the size of this step
     // uses eulers method, TODO: change eventually
     void step(double deltaT) {

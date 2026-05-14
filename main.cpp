@@ -116,7 +116,7 @@ int main() {
 
         // draw
         //handle trail
-        for (const auto n : nbody.container) {
+        for (const auto n : nbody.getContainer()) {
             sf::VertexArray lines(sf::PrimitiveType::LineStrip, n->trail.size());
             for (int i = 0; i < n->trail.size(); i++) {
                 lines[i].position = sf::Vector2f(
