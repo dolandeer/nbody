@@ -7,4 +7,4 @@ constexpr double MOON_MASS_CONSTANT = 7.34767309E22; // kg
 constexpr double AU = 1.496E11; // meters
 
 //config constants
-constexpr int TRAIL_LENGTH = 3000; // steps
+constexpr int TRAIL_LENGTH = 10000; // steps

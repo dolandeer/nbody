@@ -24,8 +24,8 @@ public:
         // eulers method, TODO: change eventually
         for (auto n : container) {
             //trail
-            if (n->trail.size() == TRAIL_LENGTH) n->trail.pop();
-            n->trail.emplace(n->posx, n->posy);
+            if (n->trail.size() == TRAIL_LENGTH) n->trail.pop_front();
+            n->trail.emplace_back(n->posx, n->posy);
             //physics
             n->clearAcc();
             for (auto other : container) {

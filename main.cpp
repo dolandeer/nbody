@@ -113,13 +113,10 @@ int main() {
         //handle trail
         for (const auto n : nbody.container) {
             sf::VertexArray lines(sf::PrimitiveType::LineStrip, n->trail.size());
-            auto tempTrail = n->trail; // copy since we're popping
-            for (int i = 0; !tempTrail.empty(); i++) {
-                auto p = tempTrail.front();
-                tempTrail.pop();
+            for (int i = 0; i < n->trail.size(); i++) {
                 lines[i].position = sf::Vector2f(
-                    centerX + static_cast<float>(p.first * scaleFactor),
-                    centerY + static_cast<float>(p.second * scaleFactor)
+                    centerX + static_cast<float>(n->trail[i].first  * scaleFactor),
+                    centerY + static_cast<float>(n->trail[i].second * scaleFactor)
                 );
             }
             window.draw(lines);

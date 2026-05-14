@@ -3,7 +3,7 @@
 #include <utility>
 #include <vector>
 #include <string>
-#include <queue>
+#include <deque>
 #include "constants.h"
 
 struct body {
@@ -15,7 +15,7 @@ public:
     double velx, vely, velz;
     double accx, accy, accz;
 
-    std::queue<std::pair<double, double>> trail;
+    std::deque<std::pair<double, double>> trail;
     //const
     body(std::string name, double posx, double posy, double posz, double mass) {
         this->name = std::move(name);
