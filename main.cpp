@@ -19,18 +19,18 @@ int main() {
     simulation nbody;
     auto sun = nbody.createBody("sol", 0, 0, 0, SUN_MASS_CONSTANT);
     auto earth = nbody.createBody("earth", AU, 0, 0, EARTH_MASS_CONSTANT);
-    //auto moon = nbody.createBody("moon", earth->posx+384.4E6, 0, 0, MOON_MASS_CONSTANT);
+    auto moon = nbody.createBody("moon", earth->posx+384.4E6, 0, 0, MOON_MASS_CONSTANT);
 
     sun->setVel(0,0,0);
     earth->setVel(0, 29784.8, 0); // in m/s || y = 29784.8 is normal, this is tangential velocity
-    //moon->setVel(0,29784.8+1024,0);
+    moon->setVel(0,29784.8+1024,0);
 
 
     //graphics
     sf::CircleShape sunGraphic(1.0f);
-    sf::CircleShape earthGraphic(1.0f);
+    //sf::CircleShape earthGraphic(1.0f);
     sunGraphic.setOrigin({1.0f, 1.0f});
-    earthGraphic.setOrigin({1.0f, 1.0f});
+    //earthGraphic.setOrigin({1.0f, 1.0f});
 
 
     // view options
@@ -108,10 +108,12 @@ int main() {
         centerX + static_cast<float>(sun->posx * scaleFactor),
         centerY + static_cast<float>(sun->posy * scaleFactor)
         });
+        /*
         earthGraphic.setPosition({
         centerX + static_cast<float>(earth->posx * scaleFactor),
         centerY + static_cast<float>(earth->posy * scaleFactor)
         });
+        */
 
 
         // draw
@@ -127,7 +129,7 @@ int main() {
             window.draw(lines);
         }
         window.draw(sunGraphic);
-        window.draw(earthGraphic);
+        //window.draw(earthGraphic);
 
 
         // end the current frame
