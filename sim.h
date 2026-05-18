@@ -14,8 +14,16 @@ public:
     }
 
     //helpers
-    const std::vector<body*>& getContainer() const {
+    const std::vector<body*> getContainer() const {
         return this->container;
+    }
+
+    const body* getBody(std::string target){
+        for (auto n : this->container){
+            if (n->name == target)
+                return n;
+        }
+        return nullptr;
     }
 
     body* createBody(std::string name, double posx, double posy, double posz, double mass) {

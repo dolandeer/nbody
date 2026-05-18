@@ -36,7 +36,7 @@ int main() {
     // view options
     sf::View main(window.getDefaultView().getCenter(), window.getDefaultView().getSize());
     auto defaultSize = main.getSize();
-
+    std::string target = "sol";
 
     while (window.isOpen())
     {
@@ -83,17 +83,25 @@ int main() {
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Backslash)) {
                 //debug: focus earth
-                main.setCenter({centerX + static_cast<float>(earth->posx * scaleFactor),
-                    centerY + static_cast<float>(earth->posy * scaleFactor)});
+                target = "earth";
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Slash))
             {
                 //debug: focus sun
+                target = "sol";
                 main.setCenter({centerX + static_cast<float>(sun->posx * scaleFactor),
-                    centerY + static_cast<float>(sun->posy * scaleFactor)});
+                                centerY + static_cast<float>(sun->posy * scaleFactor)});
             }
         }
 
+        // keep centered
+        auto targetBody = nbody.getBody(target);
+        if (target == "sol" || targetBody == nullptr){
+            //pass
+        } else{
+            main.setCenter({centerX + static_cast<float>(targetBody->posx * scaleFactor),
+                            centerY + static_cast<float>(targetBody->posy * scaleFactor)});
+        }
 
         //physics handling below
         nbody.step(deltaT);
