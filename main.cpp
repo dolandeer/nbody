@@ -8,7 +8,11 @@ int main() {
     window.setFramerateLimit(60); // this is unfortunately not perfect, 
     // meaning its impossible to map a single frame to a real simulation time with this approach
 
-    double deltaT = DAY_PER_SECOND*7*2; // physics timestep in years, 1 frame = 1 year.
+    double deltaT = DAY_PER_SECOND
+    *7
+    //*2
+    ; 
+    // physics timestep in years, 1 frame = 1 year.
     // default is (1/365.25)/60 or approx 1 day per second
     const float scaleFactor = 200.0f; // 1 AU = 200px
     const float centerX = window.getSize().x/2.0f;
@@ -21,7 +25,10 @@ int main() {
     auto moon = nbody.createBody("moon", EARTH_ORBIT_RADIUS+MOON_ORBIT_RADIUS, 0, 0, MOON_MASS_CONSTANT);
 
 
-    double totalMass = SUN_MASS_CONSTANT + EARTH_MASS_CONSTANT + MOON_MASS_CONSTANT;
+    double totalMass = 0;
+    for (auto n : nbody.getContainer()){
+        totalMass += n->getMass();
+    }
     sun->setVel(0, -((EARTH_MASS_CONSTANT * EARTH_ORBIT_V) / totalMass), 0);
     earth->setVel(0, (SUN_MASS_CONSTANT / totalMass) * EARTH_ORBIT_V, 0);
     moon->setVel(0, earth->vely + MOON_ORBIT_V, 0);
