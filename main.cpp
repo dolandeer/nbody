@@ -5,8 +5,10 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "nbody");
+    window.setFramerateLimit(60);
 
-    double deltaT = DAY / 365.25; // physics timestep in days, 1 frame = 1 day
+    double deltaT = DAY / 60; // physics timestep in years, 1 frame = 1 year.
+    // default is (1/365.25)/60 or approx 1 day per frame
     const float scaleFactor = 200.0f; // 1 AU = 200px
     const float centerX = window.getSize().x/2.0f;
     const float centerY = window.getSize().y/2.0f;
