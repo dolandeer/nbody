@@ -5,14 +5,14 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "nbody");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(60); // this is unfortunately not perfect, 
+    // meaning its impossible to map a single frame to a real simulation time with this approach
 
-    double deltaT = DAY / 60; // physics timestep in years, 1 frame = 1 year.
-    // default is (1/365.25)/60 or approx 1 day per frame
+    double deltaT = DAY_PER_SECOND*7; // physics timestep in years, 1 frame = 1 year.
+    // default is (1/365.25)/60 or approx 1 day per second
     const float scaleFactor = 200.0f; // 1 AU = 200px
     const float centerX = window.getSize().x/2.0f;
     const float centerY = window.getSize().y/2.0f;
-
 
     //init
     simulation nbody;
@@ -94,22 +94,12 @@ int main() {
             }
         }
 
-        // keep centered
-        auto targetBody = nbody.getBody(target);
-        if (target == "sol" || targetBody == nullptr){
-            //pass
-        } else{
-            main.setCenter({centerX + static_cast<float>(targetBody->posx * scaleFactor),
-                            centerY + static_cast<float>(targetBody->posy * scaleFactor)});
-        }
-
         //physics handling below
         nbody.step(deltaT);
 
 
         // clear the window with black color
         window.clear(sf::Color::Black);
-
 
         // graphics
         sunGraphic.setPosition({
@@ -123,6 +113,17 @@ int main() {
         });
         */
 
+        // keep centered
+        auto targetBody = nbody.getBody(target);
+        if (target == "sol" || targetBody == nullptr)
+        {
+            // pass
+        }
+        else
+        {
+            main.setCenter({centerX + static_cast<float>(targetBody->posx * scaleFactor),
+                            centerY + static_cast<float>(targetBody->posy * scaleFactor)});
+        }
 
         // draw
         //handle trail

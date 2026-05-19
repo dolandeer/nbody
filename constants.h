@@ -26,8 +26,6 @@ constexpr double EARTH_ORBIT_RADIUS = 1.0; // Astronomical Units
 constexpr double MOON_ORBIT_RADIUS = 0.00257; // Astronomical Units
 
 
-
-
-
 //config constants
-constexpr int TRAIL_LENGTH = 10000; // steps
+constexpr double DAY_PER_SECOND = DAY / 60; // based off of maximum framerate, not perfect
+constexpr int TRAIL_LENGTH = 365; // steps
