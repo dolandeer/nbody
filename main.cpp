@@ -6,11 +6,8 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "nbody");
 
-    const double deltaT = 3600.0/8; // physics timestep in seconds per frame, 1 = 1s/frame
-    // 3600.0 1 hour per frame
-    // 86400.0 1 day per frame
-    // 604800.0 1 week per frame
-    const float scaleFactor = 200.0f / AU; // 1 AU = 200px
+    double deltaT = DAY / 365.25; // physics timestep in days, 1 frame = 1 day
+    const float scaleFactor = 200.0f; // 1 AU = 200px
     const float centerX = window.getSize().x/2.0f;
     const float centerY = window.getSize().y/2.0f;
 
@@ -18,13 +15,14 @@ int main() {
     //init
     simulation nbody;
     auto sun = nbody.createBody("sol", 0, 0, 0, SUN_MASS_CONSTANT);
-    auto earth = nbody.createBody("earth", AU, 0, 0, EARTH_MASS_CONSTANT);
-    auto moon = nbody.createBody("moon", earth->posx+384.4E6, 0, 0, MOON_MASS_CONSTANT);
+    auto earth = nbody.createBody("earth", EARTH_ORBIT_RADIUS, 0, 0, EARTH_MASS_CONSTANT);
+    auto moon = nbody.createBody("moon", EARTH_ORBIT_RADIUS+MOON_ORBIT_RADIUS, 0, 0, MOON_MASS_CONSTANT);
 
-    sun->setVel(0,0,0);
-    earth->setVel(0, 29784.8, 0); // in m/s || y = 29784.8 is normal, this is tangential velocity
-    moon->setVel(0,29784.8+1024,0);
 
+    double totalMass = SUN_MASS_CONSTANT + EARTH_MASS_CONSTANT + MOON_MASS_CONSTANT;
+    sun->setVel(0, -((EARTH_MASS_CONSTANT * EARTH_ORBIT_V) / totalMass), 0);
+    earth->setVel(0, (SUN_MASS_CONSTANT / totalMass) * EARTH_ORBIT_V, 0);
+    moon->setVel(0, earth->vely + MOON_ORBIT_V, 0);
 
     //graphics
     sf::CircleShape sunGraphic(1.0f);
@@ -138,7 +136,7 @@ int main() {
         }
         window.draw(sunGraphic);
         //window.draw(earthGraphic);
-
+        std::cout << earth->posx - sun->posx << ", " << earth->posy - sun->posy << std::endl;
 
         // end the current frame
         window.display();

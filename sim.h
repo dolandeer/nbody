@@ -14,7 +14,7 @@ public:
     }
 
     //helpers
-    const std::vector<body*> getContainer() const {
+    const std::vector<body*>& getContainer() const {
         return this->container;
     }
 
