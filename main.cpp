@@ -8,7 +8,7 @@ int main() {
     window.setFramerateLimit(60); // this is unfortunately not perfect, 
     // meaning its impossible to map a single frame to a real simulation time with this approach
 
-    double deltaT = DAY_PER_SECOND*7; // physics timestep in years, 1 frame = 1 year.
+    double deltaT = DAY_PER_SECOND*7*2; // physics timestep in years, 1 frame = 1 year.
     // default is (1/365.25)/60 or approx 1 day per second
     const float scaleFactor = 200.0f; // 1 AU = 200px
     const float centerX = window.getSize().x/2.0f;
