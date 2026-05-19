@@ -5,26 +5,26 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "nbody");
+    window.setFramerateLimit(60); // this is unfortunately not perfect, 
+    // meaning its impossible to map a single frame to a real simulation time with this approach
 
-    const double deltaT = 3600.0/8; // physics timestep in seconds per frame, 1 = 1s/frame
-    // 3600.0 1 hour per frame
-    // 86400.0 1 day per frame
-    // 604800.0 1 week per frame
-    const float scaleFactor = 200.0f / AU; // 1 AU = 200px
+    double deltaT = DAY_PER_SECOND*7*2; // physics timestep in years, 1 frame = 1 year.
+    // default is (1/365.25)/60 or approx 1 day per second
+    const float scaleFactor = 200.0f; // 1 AU = 200px
     const float centerX = window.getSize().x/2.0f;
     const float centerY = window.getSize().y/2.0f;
-
 
     //init
     simulation nbody;
     auto sun = nbody.createBody("sol", 0, 0, 0, SUN_MASS_CONSTANT);
-    auto earth = nbody.createBody("earth", AU, 0, 0, EARTH_MASS_CONSTANT);
-    auto moon = nbody.createBody("moon", earth->posx+384.4E6, 0, 0, MOON_MASS_CONSTANT);
+    auto earth = nbody.createBody("earth", EARTH_ORBIT_RADIUS, 0, 0, EARTH_MASS_CONSTANT);
+    auto moon = nbody.createBody("moon", EARTH_ORBIT_RADIUS+MOON_ORBIT_RADIUS, 0, 0, MOON_MASS_CONSTANT);
 
-    sun->setVel(0,0,0);
-    earth->setVel(0, 29784.8, 0); // in m/s || y = 29784.8 is normal, this is tangential velocity
-    moon->setVel(0,29784.8+1024,0);
 
+    double totalMass = SUN_MASS_CONSTANT + EARTH_MASS_CONSTANT + MOON_MASS_CONSTANT;
+    sun->setVel(0, -((EARTH_MASS_CONSTANT * EARTH_ORBIT_V) / totalMass), 0);
+    earth->setVel(0, (SUN_MASS_CONSTANT / totalMass) * EARTH_ORBIT_V, 0);
+    moon->setVel(0, earth->vely + MOON_ORBIT_V, 0);
 
     //graphics
     sf::CircleShape sunGraphic(1.0f);
@@ -36,7 +36,7 @@ int main() {
     // view options
     sf::View main(window.getDefaultView().getCenter(), window.getDefaultView().getSize());
     auto defaultSize = main.getSize();
-
+    std::string target = "sol";
 
     while (window.isOpen())
     {
@@ -83,17 +83,16 @@ int main() {
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Backslash)) {
                 //debug: focus earth
-                main.setCenter({centerX + static_cast<float>(earth->posx * scaleFactor),
-                    centerY + static_cast<float>(earth->posy * scaleFactor)});
+                target = "earth";
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Slash))
             {
                 //debug: focus sun
+                target = "sol";
                 main.setCenter({centerX + static_cast<float>(sun->posx * scaleFactor),
-                    centerY + static_cast<float>(sun->posy * scaleFactor)});
+                                centerY + static_cast<float>(sun->posy * scaleFactor)});
             }
         }
-
 
         //physics handling below
         nbody.step(deltaT);
@@ -101,7 +100,6 @@ int main() {
 
         // clear the window with black color
         window.clear(sf::Color::Black);
-
 
         // graphics
         sunGraphic.setPosition({
@@ -115,6 +113,17 @@ int main() {
         });
         */
 
+        // keep centered
+        auto targetBody = nbody.getBody(target);
+        if (target == "sol" || targetBody == nullptr)
+        {
+            // pass
+        }
+        else
+        {
+            main.setCenter({centerX + static_cast<float>(targetBody->posx * scaleFactor),
+                            centerY + static_cast<float>(targetBody->posy * scaleFactor)});
+        }
 
         // draw
         //handle trail
@@ -130,7 +139,7 @@ int main() {
         }
         window.draw(sunGraphic);
         //window.draw(earthGraphic);
-
+        std::cout << earth->posx - sun->posx << ", " << earth->posy - sun->posy << std::endl;
 
         // end the current frame
         window.display();
