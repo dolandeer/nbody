@@ -18,7 +18,7 @@ public:
         return this->container;
     }
 
-    const body* getBody(std::string target){
+    body* getBody(std::string target){
         for (auto n : this->container){
             if (n->name == target)
                 return n;
@@ -26,8 +26,8 @@ public:
         return nullptr;
     }
 
-    body* createBody(std::string name, double posx, double posy, double posz, double mass) {
-        body* n = new body(std::move(name), posx, posy, posz, mass); // NOTE: HEAP ALLOCATION
+    body* createBody(std::string name, double posx, double posy, double posz, double mass, double radius) {
+        body* n = new body(std::move(name), posx, posy, posz, mass, radius); // NOTE: HEAP ALLOCATION
         this->container.push_back(n);
         return n;
     }
@@ -43,7 +43,7 @@ public:
 
     //physics operations
     // one step happens per frame, deltaT determines the size of this step
-    // uses eulers method, TODO: change eventually
+    // uses eulers method, TODO: change eventually, verlet method?
     void step(double deltaT) {
         for (auto n : container) {
             //trail

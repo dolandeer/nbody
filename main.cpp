@@ -20,24 +20,18 @@ int main() {
 
     //init
     simulation nbody;
-    auto sun = nbody.createBody("sol", 0, 0, 0, SUN_MASS_CONSTANT);
-    auto earth = nbody.createBody("earth", EARTH_ORBIT_RADIUS, 0, 0, EARTH_MASS_CONSTANT);
-    auto moon = nbody.createBody("moon", EARTH_ORBIT_RADIUS+MOON_ORBIT_RADIUS, 0, 0, MOON_MASS_CONSTANT);
+    auto sun = nbody.createBody("sol", 0, 0, 0, SUN_MASS_CONSTANT, SUN_RADIUS_CONSTANT);
+    auto earth = nbody.createBody("earth", EARTH_ORBIT_RADIUS, 0, 0, EARTH_MASS_CONSTANT, EARTH_RADIUS_CONSTANT);
+    auto moon = nbody.createBody("moon", EARTH_ORBIT_RADIUS+MOON_ORBIT_RADIUS, 0, 0, MOON_MASS_CONSTANT, MOON_RADIUS_CONSTANT);
 
-
-    double totalMass = 0;
-    for (auto n : nbody.getContainer()){
-        totalMass += n->getMass();
-    }
+    double totalMass = nbody.totalMass();
     sun->setVel(0, -((EARTH_MASS_CONSTANT * EARTH_ORBIT_V) / totalMass), 0);
     earth->setVel(0, (SUN_MASS_CONSTANT / totalMass) * EARTH_ORBIT_V, 0);
     moon->setVel(0, earth->vely + MOON_ORBIT_V, 0);
 
     //graphics
-    sf::CircleShape sunGraphic(1.0f);
-    //sf::CircleShape earthGraphic(1.0f);
+    sf::CircleShape sunGraphic(1.0f); // wrong scale
     sunGraphic.setOrigin({1.0f, 1.0f});
-    //earthGraphic.setOrigin({1.0f, 1.0f});
 
 
     // view options
@@ -113,12 +107,6 @@ int main() {
         centerX + static_cast<float>(sun->posx * scaleFactor),
         centerY + static_cast<float>(sun->posy * scaleFactor)
         });
-        /*
-        earthGraphic.setPosition({
-        centerX + static_cast<float>(earth->posx * scaleFactor),
-        centerY + static_cast<float>(earth->posy * scaleFactor)
-        });
-        */
 
         // keep centered
         auto targetBody = nbody.getBody(target);

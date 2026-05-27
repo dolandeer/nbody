@@ -11,18 +11,23 @@ private:
     double mass;
 public:
     std::string name;
-    double posx, posy, posz; // one unit of pos = 1m (ex x=0 and x=1 are 1m apart)
-    double velx, vely, velz;
-    double accx, accy, accz;
+    double posx, posy, posz; // one unit of pos = 1AU (ex x=0 and x=1 are 1AU apart)
+    double velx, vely, velz; // in AU/yr
+    double accx, accy, accz; // in AU/yr
+    double radius; // in AU
+
     std::deque<std::pair<double, double>> trail;
+    std::string trail_color = "white";
+
 
     // constructor
-    body(std::string name, double posx, double posy, double posz, double mass) {
+    body(std::string name, double posx, double posy, double posz, double mass, double radius) {
         this->name = std::move(name);
         this->posx = posx;
         this->posy = posy;
         this->posz = posz;
         this->mass = mass;
+        this->radius = radius;
         velx = vely = velz = 0.0;
         accx = accy = accz = 0.0;
     }

@@ -14,6 +14,10 @@ constexpr double EARTH_MASS_CONSTANT = 3.00260935E-6; // Solar Masses
 constexpr double SUN_MASS_CONSTANT = 1; // Solar Masses
 constexpr double MOON_MASS_CONSTANT = 3.69415439E-8; // Solar Masses
 
+// radius constants;  equatorial radius approximation
+constexpr double EARTH_RADIUS_CONSTANT = 0.0000426354; // Astronomical Units
+constexpr double SUN_RADIUS_CONSTANT = 0.0046524726;   // Astronomical Units
+constexpr double MOON_RADIUS_CONSTANT = 2.322226E-5; // Astronomical Units
 
 // velocity constants
 constexpr double EARTH_ORBIT_V = 6.278697964; // AU/yr
