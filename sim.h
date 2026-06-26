@@ -77,7 +77,7 @@ public:
                 n->initial_step = false;
             }
             else{
-                // verlet integration here
+                // velocity verlet integration here
                 n->posx += n->velx * deltaT + 0.5 * n->accx * deltaT * deltaT;
                 n->posy += n->vely * deltaT + 0.5 * n->accy * deltaT * deltaT;
                 n->posz += n->velz * deltaT + 0.5 * n->accz * deltaT * deltaT;
