@@ -50,21 +50,53 @@ public:
             if (n->trail.size() == TRAIL_LENGTH) n->trail.pop_front();
             n->trail.emplace_back(n->posx, n->posy);
 
-            //physics
+
+            
+            //physics (replace with tree algo at some point)
             n->clearAcc();
             for (auto other : container) {
                 if (other == n) continue;
                 n->applyGravity(*other);
             }
         }
-        // integrate
+
+
+        // integrate (eulers method initial, verlet after)
         for (auto n : container) {
-            n->velx += n->accx * deltaT;
-            n->vely += n->accy * deltaT;
-            n->velz += n->accz * deltaT;
-            n->posx += n->velx * deltaT;
-            n->posy += n->vely * deltaT;
-            n->posz += n->velz * deltaT;
+            n->prev_posx = n->posx;
+            n->prev_posy = n->posy;
+            n->prev_posz = n->posz;
+
+            if (n->initial_step){ // eulers method (can improve this to reduce upfront energy drift)
+                n->velx += n->accx * deltaT;
+                n->vely += n->accy * deltaT;
+                n->velz += n->accz * deltaT;
+                n->posx += n->velx * deltaT;
+                n->posy += n->vely * deltaT;
+                n->posz += n->velz * deltaT;
+                n->initial_step = false;
+            }
+            else{
+                // verlet integration here
+                n->posx += n->velx * deltaT + 0.5 * n->accx * deltaT * deltaT;
+                n->posy += n->vely * deltaT + 0.5 * n->accy * deltaT * deltaT;
+                n->posz += n->velz * deltaT + 0.5 * n->accz * deltaT * deltaT;
+
+                double oldaccx = n->accx;
+                double oldaccy = n->accy;
+                double oldaccz = n->accz;
+                n->clearAcc();
+                for (auto other : container)
+                {
+                    if (other == n)
+                        continue;
+                    n->applyGravity(*other);
+                }
+
+                n->velx += 0.5*(n->accx + oldaccx) * deltaT;
+                n->vely += 0.5 * (n->accy + oldaccy) * deltaT;
+                n->velz += 0.5 * (n->accz + oldaccz) * deltaT;
+            }
         }
     }
 };

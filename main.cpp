@@ -10,10 +10,10 @@ int main() {
 
     double deltaT = DAY_PER_SECOND
     *7
-    //*2
+    *2
     ; 
     // physics timestep in years, 1 frame = 1 year.
-    // default is (1/365.25)/60 or approx 1 day per second
+    // default is (1/365.25)/60 * 7 or approx 1 week per second
     const float scaleFactor = 200.0f; // 1 AU = 200px
     const float centerX = window.getSize().x/2.0f;
     const float centerY = window.getSize().y/2.0f;

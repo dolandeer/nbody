@@ -12,9 +12,11 @@ private:
 public:
     std::string name;
     double posx, posy, posz; // one unit of pos = 1AU (ex x=0 and x=1 are 1AU apart)
+    double prev_posx, prev_posy, prev_posz; // one unit of pos = 1AU (ex x=0 and x=1 are 1AU apart), needed for verlet
     double velx, vely, velz; // in AU/yr
     double accx, accy, accz; // in AU/yr
     double radius; // in AU
+    bool initial_step = true;
 
     std::deque<std::pair<double, double>> trail;
     std::string trail_color = "white";
